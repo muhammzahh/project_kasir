@@ -15,7 +15,6 @@ class _BottomNavState extends State<BottomNav> {
   String? role;
   bool isChecking = true;
 
-  // ================= GET DATA LOGIN =================
   Future<void> getDataLogin() async {
     var user = await userLogin.getUserLogin();
 
@@ -41,7 +40,6 @@ class _BottomNavState extends State<BottomNav> {
     getDataLogin();
   }
 
-  // ================= NAVIGATION =================
   void getLink(int index) {
     if (role == "admin") {
       if (index == 0) {
@@ -54,29 +52,42 @@ class _BottomNavState extends State<BottomNav> {
         Navigator.pushReplacementNamed(context, '/dashboard');
       } else if (index == 1) {
         Navigator.pushReplacementNamed(context, '/transaksi');
+      } else if (index == 2) {
+        Navigator.pushReplacementNamed(context, '/history');
+      }
+    } else if (role == "user") {
+      // ===== Sesuai modul: Dashboard → Pesan → History =====
+      if (index == 0) {
+        Navigator.pushReplacementNamed(context, '/dashboard');
+      } else if (index == 1) {
+        Navigator.pushReplacementNamed(context, '/transaksi');
+      } else if (index == 2) {
+        Navigator.pushReplacementNamed(context, '/history');
       }
     }
   }
 
+  // ===== CLAMP: pastikan index tidak melebihi jumlah item =====
+  int _safeIndex(int itemCount) {
+    return widget.activePage.clamp(0, itemCount - 1);
+  }
+
   @override
   Widget build(BuildContext context) {
-    // Saat masih cek login, jangan tampilkan apa-apa dulu
-    if (isChecking) {
-      return const SizedBox();
-    }
+    if (isChecking) return const SizedBox();
 
-    // Warna tema gelap
-    const Color darkBgColor = Color(0xFF1F222A); 
+    const Color darkBgColor = Color(0xFF1F222A);
     const Color activeColor = Color(0xFFE50914);
     const Color inactiveColor = Colors.white38;
 
+    // ===== ADMIN: Dashboard + Produk (2 item, index 0-1) =====
     if (role == "admin") {
       return BottomNavigationBar(
-        type: BottomNavigationBarType.fixed, // Penting agar background warna muncul penuh
-        backgroundColor: darkBgColor, // Mengubah warna putih jadi gelap
+        type: BottomNavigationBarType.fixed,
+        backgroundColor: darkBgColor,
         selectedItemColor: activeColor,
         unselectedItemColor: inactiveColor,
-        currentIndex: widget.activePage,
+        currentIndex: _safeIndex(2),
         onTap: getLink,
         elevation: 10,
         items: const [
@@ -92,13 +103,14 @@ class _BottomNavState extends State<BottomNav> {
       );
     }
 
+    // ===== KASIR: Dashboard + Pesan + History (3 item, index 0-2) =====
     if (role == "kasir") {
       return BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         backgroundColor: darkBgColor,
         selectedItemColor: activeColor,
         unselectedItemColor: inactiveColor,
-        currentIndex: widget.activePage,
+        currentIndex: _safeIndex(3),
         onTap: getLink,
         elevation: 10,
         items: const [
@@ -107,8 +119,39 @@ class _BottomNavState extends State<BottomNav> {
             label: 'Dashboard',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.message),
+            icon: Icon(Icons.card_giftcard),
             label: 'Pesan',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.history),
+            label: 'History',
+          ),
+        ],
+      );
+    }
+
+    // ===== USER: Dashboard + Pesan + History (3 item, index 0-2) — sesuai modul =====
+    if (role == "user") {
+      return BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
+        backgroundColor: darkBgColor,
+        selectedItemColor: activeColor,
+        unselectedItemColor: inactiveColor,
+        currentIndex: _safeIndex(3),
+        onTap: getLink,
+        elevation: 10,
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.dashboard),
+            label: 'Dashboard',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.card_giftcard),
+            label: 'Pesan',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.history),
+            label: 'History',
           ),
         ],
       );

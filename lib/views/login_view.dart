@@ -56,10 +56,7 @@ class _LoginViewState extends State<LoginView> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios, color: Colors.white54, size: 20),
-          onPressed: () => Navigator.pop(context),
-        ),
+        
       ),
       body: SafeArea(
         child: SingleChildScrollView(

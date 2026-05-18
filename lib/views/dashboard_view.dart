@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:project_toko/models/user_login.dart';
-import 'package:project_toko/services/user.dart';
 import 'package:project_toko/widget/battom_nav.dart';
 
 class DashboardView extends StatefulWidget {
@@ -48,7 +47,7 @@ class _DashboardViewState extends State<DashboardView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF181A20), // Background gelap utama
+      backgroundColor: const Color(0xFF181A20),
 
       // ===== APP BAR =====
       appBar: AppBar(
@@ -115,10 +114,7 @@ class _DashboardViewState extends State<DashboardView> {
                     decoration: BoxDecoration(
                       color: const Color(0xFF1F222A),
                       borderRadius: BorderRadius.circular(20),
-                      border: Border.all(
-                        color: Colors.white12,
-                        width: 1.5,
-                      ),
+                      border: Border.all(color: Colors.white12, width: 1.5),
                       boxShadow: [
                         BoxShadow(
                           color: Colors.black.withOpacity(0.2),
@@ -195,7 +191,7 @@ class _DashboardViewState extends State<DashboardView> {
                   ),
                   const SizedBox(height: 12),
 
-                  // ===== SUMMARY =====
+                  // ===== SUMMARY CARDS =====
                   Row(
                     children: [
                       _summaryCard(
@@ -224,10 +220,7 @@ class _DashboardViewState extends State<DashboardView> {
                     decoration: BoxDecoration(
                       color: const Color(0xFF1F222A),
                       borderRadius: BorderRadius.circular(16),
-                      border: Border.all(
-                        color: Colors.white12,
-                        width: 1,
-                      ),
+                      border: Border.all(color: Colors.white12, width: 1),
                       boxShadow: [
                         BoxShadow(
                           color: Colors.black.withOpacity(0.2),
@@ -290,12 +283,11 @@ class _DashboardViewState extends State<DashboardView> {
               ),
             ),
 
-      // ===== BOTTOM NAV =====
+      // ===== BOTTOM NAV index 0 = Dashboard =====
       bottomNavigationBar: BottomNav(0),
     );
   }
 
-  // ===== SUMMARY CARD =====
   Widget _summaryCard({
     required String title,
     required String value,
@@ -353,7 +345,6 @@ class _DashboardViewState extends State<DashboardView> {
     );
   }
 
-  // ===== INFO ROW =====
   Widget _infoRow(String label, String value) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
